@@ -12,16 +12,17 @@ namespace EvenOrOdd
         {
             //Get Input
             Console.Write("Enter your number: ");
-            string number = Console.ReadLine();
-            int value = int.Parse(number);
+            string numberInput = Console.ReadLine();
+            int number = int.Parse(numberInput);
 
-            if {
-                value % 2 = 0;
-                Console.WriteLine($"Your number {value} is an even number");
+            if (number % 2 == 0) 
+            { 
+                Console.WriteLine($"Your number {number} is an even number.");
             }
 
-            else {
-                Console.WriteLine($"Your number {value} is an odd number");
+            else
+            {
+                Console.WriteLine($"Your number {number} is an odd number.");
             }
             Console.ReadLine();
         }
