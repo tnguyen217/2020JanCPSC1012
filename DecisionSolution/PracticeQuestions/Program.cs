@@ -94,6 +94,17 @@ namespace PracticeQuestions
 
             //Question 4
 
+            //using column alighed output
+            //the syntax for formatting {variable,columnsize:formatstring}
+            //variable is the data output
+            //columnsize is the number of character spacing to be used for the column
+            //positive columnsize is right aligned
+            //negative columnsize is left aligned
+            //fomastring is your string format
+            //put our the tax table as a column formatted table
+            //using a \t character will give column depending on the length of your output string (inconsistence)
+            Console.WriteLine("Taxable Income \t Tax Calculation");
+
             Console.Write("Enter your income: ");
             string inputIncome = Console.ReadLine();
             double income = double.Parse(inputIncome);
@@ -113,6 +124,15 @@ namespace PracticeQuestions
             }
 
             Console.WriteLine($"The tax due of your ${income} is ${taxDue}");
+
+            Console.WriteLine("Taxable Income \t Tax Calculation");
+            Console.WriteLine("Up to $50,000 \t $0 + 5% of amount over $0");
+            Console.WriteLine("Up to $100,000 \t $2,500 + 7% of amount over $50,000");
+            Console.WriteLine("Up to $50,000 \t $6,000 + 9% of amount over $100,000");
+
+            //output using columm printing
+            Console.WriteLine("{0,6} {1,7}","income:", "taxDue:");
+            Console.WriteLine($"{income,6:c} {taxDue,7:c}");
 
             Console.ReadKey();
         }
