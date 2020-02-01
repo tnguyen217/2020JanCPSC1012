@@ -105,11 +105,11 @@ namespace PracticeQuestions
             }
             else if (income <= 100000)
             {
-                taxDue = 2500 + 0.07 * income;
+                taxDue = 2500 + 0.07 * (income - 50000);
             }
             else
             {
-                taxDue = 6000 + 0.09 * income;
+                taxDue = 6000 + 0.09 * (income - 100000);
             }
 
             Console.WriteLine($"The tax due of your ${income} is ${taxDue}");
