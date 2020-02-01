@@ -34,15 +34,15 @@ namespace PracticeQuestions
             string msg;
 
 
-            if (age <= 6)
+            if (age < 7)
             {
                 msg = "Your addmission is FREE";
             }
-            else if (age > 6 && age <= 17)
+            else if (age <= 18)
             {
                 msg = "Your addmission is $9.80";
             }
-            else if (age > 17 && age <= 54)
+            else if (age < 55)
             {
                 msg = "Your addmission is $11.35";
             }
@@ -64,25 +64,29 @@ namespace PracticeQuestions
             double grade = double.Parse(inputGrade);
             string gradeLetter;
 
-            if (grade <= 100 && grade>=90)
+            if (grade <= 100)
             {
                 gradeLetter = "A";
             }
-            else if (grade < 90 && grade >= 80)
+            else if (grade >= 80)
             {
                 gradeLetter = "B";
             }
-            else if (grade < 80 && grade >=70)
+            else if (grade >= 70)
             {
                 gradeLetter = "C";
             }
-            else if (grade < 70 && grade >= 50)
+            else if (grade >= 50)
             {
                 gradeLetter = "D";
             }
-            else
+            else if (grade >= 0)
             {
                 gradeLetter = "F";
+            }
+            else
+            {
+                gradeLetter = "Invalid";
             }
 
             Console.WriteLine($"The Grade Letter of student {name} with grade {grade} is {gradeLetter}");
@@ -97,15 +101,15 @@ namespace PracticeQuestions
 
             if (income <= 50000)
             {
-                taxDue = 0 + 5 / 100 * income;
+                taxDue = 0 + 0.05 * income;
             }
             else if (income <= 100000)
             {
-                taxDue = 2500 + 7 / 100 * income;
+                taxDue = 2500 + 0.07 * income;
             }
             else
             {
-                taxDue = 6000 + (9 / 100 * income);
+                taxDue = 6000 + 0.09 * income;
             }
 
             Console.WriteLine($"The tax due of your ${income} is ${taxDue}");
