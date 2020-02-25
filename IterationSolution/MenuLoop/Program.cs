@@ -24,8 +24,8 @@ namespace MenuLoop
             {
                 //prompts
                 Console.WriteLine("Select the option from the following menu:");
-                Console.WriteLine("A) Do case A");
-                Console.WriteLine("B) Do case B");
+                Console.WriteLine("A) Even or Odd");
+                Console.WriteLine("B) Head or Tail");
                 Console.WriteLine("C) Do case C");
                 Console.WriteLine("X) Exit\n");
                 Console.Write("Enter your menu option:\t");
@@ -35,109 +35,19 @@ namespace MenuLoop
                 {
                     case "A":
                         {
-                            int number = -1;
-                            string inputString = "";
-
-                            while (number != 0)
-                            {
-                                //do
-                                //{
-                                //    Console.Write("Enter a positive whole number OR enter 0 to quit.");
-                                //    inputString = Console.ReadLine();
-                                //}
-                                //condition flag
-                                //NOTE: it MUST be reset on EACH pass of the OUTER loop
-                                bool validFlag = false;
-
-                                do
-                                {
-                                    Console.Write("Enter a positive whole number OR enter 0 to quit.");
-                                    inputString = Console.ReadLine();
-                                    //need a test to approriate set your loop exit test
-                                    if (int.TryParse(inputString, out number))
-                                    {
-                                        //set the flag to an approriate value to work with our logic
-                                        validFlag = true;
-                                    }
-                                }
-                                while (validFlag == false);
-
-                                if (number > 0)
-                                {
-                                    if (number % 2 == 0)
-                                    {
-                                        Console.WriteLine($"{number} is an even value. \n\n");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine($"{number} is an odd value. \n\n");
-                                    }
-                                }
-                                else
-                                {
-                                    if (number == 0)
-                                    {
-                                        Console.WriteLine($"Thank you. Come again. \n\n");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine($"{number} is invalid. Try again. \n\n");
-                                    }
-                                }
-                            }//eow
-                            Console.WriteLine($"");
-                            Console.WriteLine("You enter the menu option of A.\n\n");
+                            EvenOrOdd();
                             break;
                         }
                     case "B":
                         {
-                            int counter = -1;
-                            
-                            while (counter != 0)
-                            {
-                                int head = 0, tail = 0;
-                                string coinFace = "";
-                                int coinValue = 0;
-                                bool validFlag = true;
-                                do
-                                {
-                                    Console.Write("\nEnter what is your coin side (H or T): ");
-                                    coinFace = Console.ReadLine();
-                                    
-                                    if (int.TryParse(coinFace, out coinValue))
-                                    {
-                                        validFlag = true;
-                                    }
-                                }
+                            //Create a method that holds the actual code for this case
+                            //the B case will CALL the method to execute 
+                            //this action is referred to the calling statement 
+                            //calling requires your code to use the method name
+                            //your program will breanch to the requested mehtod 
+                            //when the method has finised, your program will return to the next executable statement AFTER the method call.
 
-                                while (validFlag == true)   
-
-                                switch (coinFace.ToUpper())
-                                {
-                                    case "H":
-                                        {
-                                            head++;
-                                            break;
-                                        }
-                                    case "T":
-                                        {
-                                            tail++;
-                                            break;
-                                        }
-                                    default:
-                                        {
-                                            Console.WriteLine("Invalid. Please enter again.");
-                                            break;
-                                        }
-                                }
-                            }                           
-                            
-
-                            Console.WriteLine($"\nYour number of head count is {head}.");
-                            Console.WriteLine($"Your number of tail count is {tail}.");
-                            //place the head and tail game in this case
-                            //validate that an H or T was entered, if not repeat  query for input
-                            Console.WriteLine("You enter the menu option of B.\n\n");
+                            HeadsOrTailsGame();
                             break;
                         }
                     case "C":
@@ -168,6 +78,129 @@ namespace MenuLoop
             }
             while (menuOption.ToUpper() != "X");
             Console.ReadKey();
-        }
+        }//eom Main
+
+        //the syntax for a method requires
+        //  axxesstype returndatatype MethodName ([list of parameters])
+        //  {
+        //      your method code
+        //  }
+
+        //accesstype:   public or private
+        //              protected, internal, have static reference
+        //returndatatupe:   if you are returning nothing use the key work void
+        //                  otherwise, return a single value such as int, double, decimal, DateTime, etc.
+        //MethodName:   countinuous string of characters which will be used within your program code to reference this coding block
+        //              it is best to use a meaningful name
+        //[list of parameters]  this is a set of local variables that will be used to receive values rom the calling statement
+        //                      a parameter is a set of datatype variablename parameters are separated by using a comma ,
+
+
+
+        static public void HeadsOrTailsGame()
+        {
+            string inputString = "";
+            int headcount = 0, tailcount = 0;
+            do
+            {
+                //validation
+                do
+                {
+                    Console.Write("Enter a H (head) or T (tail) or Q (quit)");
+                    inputString = Console.ReadLine();
+                } while (!inputString.ToUpper().Equals("H") && !inputString.ToUpper().Equals("T") && !inputString.ToUpper().Equals("Q"));
+
+                if (inputString.ToUpper().Equals("H") || inputString.ToUpper().Equals("T"))
+                {
+                    //heads or tails
+                    if (inputString == "H")
+                    {
+                        headcount++;
+                        Console.WriteLine($"\n{inputString.ToUpper()} is heads");
+                    }
+                    else
+                    {
+                        tailcount++;
+                        Console.WriteLine($"\n{inputString.ToUpper()} is tails");
+                    }
+                }
+                else
+                {
+                    if (headcount > tailcount)
+                    {
+                        Console.WriteLine($"Head wins over Tail: {headcount} to {tailcount}");
+                    }
+                    else if (headcount < tailcount)
+                    {
+                        Console.WriteLine($"Tail wins over Head: {tailcount} to {headcount}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Head ties Tail: {tailcount} to {headcount}");
+                    }
+                    //quit
+                    Console.WriteLine("\n\nThank you. Hope you enjoy the game.");
+                }
+            } while (inputString.ToUpper().Equals("Q"));
+
+
+            Console.WriteLine("\n\nI reach my method for option B\n\n");
+        }//eom HeadsOrTailsGame()
+
+        static public void EvenOrOdd()
+        {
+            int number = -1;
+            string inputString = "";
+
+            while (number != 0)
+            {
+                //do
+                //{
+                //    Console.Write("Enter a positive whole number OR enter 0 to quit.");
+                //    inputString = Console.ReadLine();
+                //}
+                //condition flag
+                //NOTE: it MUST be reset on EACH pass of the OUTER loop
+                bool validFlag = false;
+
+                do
+                {
+                    Console.Write("Enter a positive whole number OR enter 0 to quit.");
+                    inputString = Console.ReadLine();
+                    //need a test to approriate set your loop exit test
+                    if (int.TryParse(inputString, out number))
+                    {
+                        //set the flag to an approriate value to work with our logic
+                        validFlag = true;
+                    }
+                }
+                while (validFlag == false);
+
+                if (number > 0)
+                {
+                    if (number % 2 == 0)
+                    {
+                        Console.WriteLine($"{number} is an even value. \n\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{number} is an odd value. \n\n");
+                    }
+                }
+                else
+                {
+                    if (number == 0)
+                    {
+                        Console.WriteLine($"Thank you. Come again. \n\n");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{number} is invalid. Try again. \n\n");
+                    }
+                }
+            }//eow
+            Console.WriteLine($"");
+            Console.WriteLine("You enter the menu option of A.\n\n");
+        }//eom EvenOrOdd()
     }
 }
