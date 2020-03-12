@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SequentialSearchFind", "Seq
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Question1", "Question1\Question1.csproj", "{D540C8C6-5B1B-4768-9CD3-579168A59F1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RandomGen", "RandomGen\RandomGen.csproj", "{5CB6BCA4-C3A3-4818-9E2B-F65570A64943}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Question4", "Question4\Question4.csproj", "{867C17FF-D381-4905-AA37-E87C1A8C59B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{D540C8C6-5B1B-4768-9CD3-579168A59F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D540C8C6-5B1B-4768-9CD3-579168A59F1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D540C8C6-5B1B-4768-9CD3-579168A59F1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CB6BCA4-C3A3-4818-9E2B-F65570A64943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CB6BCA4-C3A3-4818-9E2B-F65570A64943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CB6BCA4-C3A3-4818-9E2B-F65570A64943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CB6BCA4-C3A3-4818-9E2B-F65570A64943}.Release|Any CPU.Build.0 = Release|Any CPU
+		{867C17FF-D381-4905-AA37-E87C1A8C59B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{867C17FF-D381-4905-AA37-E87C1A8C59B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{867C17FF-D381-4905-AA37-E87C1A8C59B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{867C17FF-D381-4905-AA37-E87C1A8C59B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
