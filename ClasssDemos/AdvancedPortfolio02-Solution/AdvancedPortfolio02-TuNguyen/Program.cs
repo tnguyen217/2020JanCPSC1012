@@ -41,14 +41,27 @@ namespace AdvancedPortfolio02_TuNguyen
                 Console.WriteLine("* Tie-Tac-Toe Game *");
                 Console.WriteLine("********************");
 
-                int r = 0, c = 0;
-                int[,] positionX = new int[r, c];
-                int[,] positionO = new int[r, c];
+                int playerRow = 0, playerColumn = 0, moves = 0;
+                string[,] gameBoard = new string[7, 7];
+                string player = "";
+                bool endGame = false;
 
-                //Display New Blank Game Board
-                GameBoard();
-                positionX = PositionPlayerX();
-                positionO = PositionPlayerO();
+                while (endGame == false)
+                {
+                    if (moves % 2 == 0)
+                        player = "X";
+                    else
+                        player = "O";
+
+                    //Display New Blank Game Board
+                    gameBoard = GameBoard(gameBoard, playerRow, playerColumn, player);
+
+                    //Determine the postition to place X and O tokens
+                    playerRow = Row(player);
+                    playerColumn = Column(player);
+
+                    moves++;
+                }
 
                 Console.Write("Would you like to play again (y/n)? ");
                 answer = Console.ReadLine();
@@ -57,9 +70,8 @@ namespace AdvancedPortfolio02_TuNguyen
         }
 
         //This method is used to draw a new game board
-        static public void GameBoard()
+        static public string[,] GameBoard(string[,] gameBoard, int playerRow, int playerColumn, string player)
         {
-            string[,] gameBoard = new string[7, 7];
             int r = 0, c = 0;
 
             for (r = 0; r < 7; r++)
@@ -72,100 +84,88 @@ namespace AdvancedPortfolio02_TuNguyen
                     {
                         if (c == 0 || c == 2 || c == 4 || c == 6)
                             gameBoard[r, c] = "|";
-                        Console.Write($"{gameBoard[r, c] + " ",2}");
+                        else
+                            gameBoard[r, c] = " ";
+                        if (r == playerRow && c == playerColumn && gameBoard[r,c] == " ")
+                        {
+                            gameBoard[r, c] = player;
+                        }
+                        Console.Write($"{gameBoard[r, c], -2}");
                     }
                 }
             }
+            return gameBoard;
         }
 
-        //This method is used to prompt player X for its potions base on x and y axis
-        static public int[,] PositionPlayerX()
+        //This method is used to prompt player tokens to be placed in rows
+        static public int Row(string player)
         {
-            string xPostion, yPostion;
-            int r = 0, c = 0;
+            string postion;
+            int r = 0;
             bool valid = false;
-            int[,] postionX = new int[r, c];
 
-            //determine which row X will locate
+            //determine which row tokens will be located
             do
             {
-                valid = false;
-                Console.Write("Enter cell row for player X Top (T), Middle (M) or Bottom (B): ");
-                yPostion = Console.ReadLine();
+                Console.Write($"Enter cell row for player {player} Top (T), Middle (M) or Bottom (B): ");
+                postion = Console.ReadLine();
 
-                if (yPostion.ToUpper().Equals("T"))
+                if (postion.ToUpper().Equals("T"))
+                {
+                    valid = true;
                     r = 1;
-                else if (yPostion.ToUpper().Equals("M"))
+                }
+                else if (postion.ToUpper().Equals("M"))
+                {
+                    valid = true;
                     r = 3;
-                else if (yPostion.ToUpper().Equals("B"))
+                }
+                else if (postion.ToUpper().Equals("B"))
+                {
+                    valid = true;
                     r = 5;
+                }
                 else
                     Console.WriteLine("Invalid entry for game location. Try again.");
-            } while (valid == true);
+            } while (valid == false);
 
-            //determine which column X will locate
-            do
-            {
-                valid = false;
-                Console.Write("Enter cell row for player X Left (L), Center (C) or Right (R): ");
-                xPostion = Console.ReadLine();
-
-                if (xPostion.ToUpper().Equals("T"))
-                    c = 1;
-                else if (xPostion.ToUpper().Equals("M"))
-                    c = 3;
-                else if (xPostion.ToUpper().Equals("B"))
-                    c = 5;
-                else
-                    Console.WriteLine("Invalid entry for game location. Try again.");
-            } while (valid == true);
-
-            return postionX;
+            return r;
         }
 
-        //This method is used to prompt player O for its potions base on x and y axis
-        static public int[,] PositionPlayerO()
+        //This method is used to prompt player O tokens to be placed in columns
+        static public int Column(string player)
         {
-            string xPostion, yPostion;
-            int r = 0, c = 0;
+            string postion;
+            int c = 0;
             bool valid = false;
-            int[,] postionX = new int[r, c];
 
-            //determine which row O will locate
+            //determine which column tokens will be located
+            valid = false;
             do
             {
-                valid = false;
-                Console.Write("Enter cell row for player O Top (T), Middle (M) or Bottom (B): ");
-                yPostion = Console.ReadLine();
+                Console.Write($"Enter cell row for {player} Left (L), Center (C) or Right (R): ");
+                postion = Console.ReadLine();
 
-                if (yPostion.ToUpper().Equals("T"))
-                    r = 1;
-                else if (yPostion.ToUpper().Equals("M"))
-                    r = 3;
-                else if (yPostion.ToUpper().Equals("B"))
-                    r = 5;
-                else
-                    Console.WriteLine("Invalid entry for game location. Try again.");
-            } while (valid == true);
-
-            //determine which column O will locate
-            do
-            {
-                valid = false;
-                Console.Write("Enter cell row for player O Left (L), Center (C) or Right (R): ");
-                xPostion = Console.ReadLine();
-
-                if (xPostion.ToUpper().Equals("T"))
+                if (postion.ToUpper().Equals("L"))
+                {
+                    valid = true;
                     c = 1;
-                else if (xPostion.ToUpper().Equals("M"))
+                }
+                else if (postion.ToUpper().Equals("C"))
+                {
+                    valid = true;
                     c = 3;
-                else if (xPostion.ToUpper().Equals("B"))
+                }
+                else if (postion.ToUpper().Equals("R"))
+                {
+                    valid = true;
                     c = 5;
+                }
                 else
                     Console.WriteLine("Invalid entry for game location. Try again.");
-            } while (valid == true);
+            } while (valid == false);
 
-            return postionX;
+            return c;
         }
     }
 }
