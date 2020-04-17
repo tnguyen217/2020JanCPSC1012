@@ -41,27 +41,36 @@ namespace AdvancedPortfolio02_TuNguyen
                 Console.WriteLine("* Tie-Tac-Toe Game *");
                 Console.WriteLine("********************");
 
-                int playerRow = 0, playerColumn = 0, moves = 0;
+                Console.WriteLine("-------------");
+                int playerRow = 0, playerColumn = 0, moves = 1;
                 string[,] gameBoard = new string[7, 7];
                 string player = "";
-                bool endGame = false;
+                bool endGame = false, valid = false;
 
                 while (endGame == false)
                 {
-                    if (moves % 2 == 0)
+                    if (moves % 2 == 1)
                         player = "X";
                     else
                         player = "O";
 
+                    do
+                    {
+                        //Determine the postition to place X and O tokens
+                        playerRow = Row(player);
+                        playerColumn = Column(player);
+
+                        valid = CheckTakenCell(gameBoard, playerRow, playerColumn, player);
+                    } while (valid == true);
+
                     //Display New Blank Game Board
                     gameBoard = GameBoard(gameBoard, playerRow, playerColumn, player);
 
-                    //Determine the postition to place X and O tokens
-                    playerRow = Row(player);
-                    playerColumn = Column(player);
-
                     moves++;
+
+                    endGame = Win(gameBoard, playerRow, playerColumn, player, endGame);
                 }
+
 
                 Console.Write("Would you like to play again (y/n)? ");
                 answer = Console.ReadLine();
@@ -69,30 +78,31 @@ namespace AdvancedPortfolio02_TuNguyen
             Console.WriteLine("Good-bye and thanks for playing.");
         }
 
-        //This method is used to draw a new game board
+        //This method is used as a game board
         static public string[,] GameBoard(string[,] gameBoard, int playerRow, int playerColumn, string player)
         {
             int r = 0, c = 0;
 
             for (r = 0; r < 7; r++)
             {
-                if (r == 0 || r == 2 || r == 4 || r == 6)
-                    Console.WriteLine("\n-------------");
-                else
+                if (r == 1 || r == 3 || r == 5)
                 {
                     for (c = 0; c < 7; c++)
                     {
                         if (c == 0 || c == 2 || c == 4 || c == 6)
                             gameBoard[r, c] = "|";
                         else
-                            gameBoard[r, c] = " ";
-                        if (r == playerRow && c == playerColumn && gameBoard[r,c] == " ")
                         {
-                            gameBoard[r, c] = player;
+                            if (gameBoard[r, c] == null)
+                                gameBoard[r, c] = null;
+                            if (r == playerRow && c == playerColumn)
+                                gameBoard[r, c] = player;
                         }
-                        Console.Write($"{gameBoard[r, c], -2}");
+                        Console.Write($"{gameBoard[r, c],-2}");
                     }
                 }
+                else
+                    Console.WriteLine("\n-------------");
             }
             return gameBoard;
         }
@@ -167,5 +177,55 @@ namespace AdvancedPortfolio02_TuNguyen
 
             return c;
         }
+
+        //This method is used to check if the cell is taken or not
+        static public bool CheckTakenCell(string[,] gameBoard, int r, int c, string player)
+        {
+            bool valid = false;
+
+            if (gameBoard[r, c] != null)
+            {
+                valid = true;
+                Console.WriteLine("This spot is already taken. Try again.");
+            }
+            else
+                valid = false;
+            return valid;
+        }
+
+        static public bool Win(string[,] gameBoard, int playerRow, int playerColumn, string player, bool endGame)
+        {
+            if ((gameBoard[1, 1] == "X" && gameBoard[1, 3] == "X" && gameBoard[1, 5] == "X") ||
+                (gameBoard[3, 1] == "X" && gameBoard[3, 3] == "X" && gameBoard[3, 5] == "X") ||
+                (gameBoard[5, 1] == "X" && gameBoard[5, 3] == "X" && gameBoard[5, 5] == "X") ||
+                (gameBoard[1, 1] == "X" && gameBoard[3, 1] == "X" && gameBoard[5, 1] == "X") ||
+                (gameBoard[1, 3] == "X" && gameBoard[3, 3] == "X" && gameBoard[5, 3] == "X") ||
+                (gameBoard[1, 5] == "X" && gameBoard[3, 5] == "X" && gameBoard[5, 5] == "X") ||
+                (gameBoard[1, 1] == "X" && gameBoard[3, 3] == "X" && gameBoard[5, 5] == "X") ||
+                (gameBoard[1, 5] == "X" && gameBoard[3, 3] == "X" && gameBoard[5, 1] == "X"))
+            {
+                endGame = true;
+                Console.WriteLine("Player X wins!");
+            }
+
+            else if ((gameBoard[1, 1] == "O" && gameBoard[1, 3] == "O" && gameBoard[1, 5] == "O") ||
+                    (gameBoard[3, 1] == "O" && gameBoard[3, 3] == "O" && gameBoard[3, 5] == "O") ||
+                    (gameBoard[5, 1] == "O" && gameBoard[5, 3] == "O" && gameBoard[5, 5] == "O") ||
+                    (gameBoard[1, 1] == "O" && gameBoard[3, 1] == "O" && gameBoard[5, 1] == "O") ||
+                    (gameBoard[1, 3] == "O" && gameBoard[3, 3] == "O" && gameBoard[5, 3] == "O") ||
+                    (gameBoard[1, 5] == "O" && gameBoard[3, 5] == "O" && gameBoard[5, 5] == "O") ||
+                    (gameBoard[1, 1] == "O" && gameBoard[3, 3] == "O" && gameBoard[5, 5] == "O") ||
+                    (gameBoard[1, 5] == "O" && gameBoard[3, 3] == "O" && gameBoard[5, 1] == "O"))
+            {
+                endGame = true;
+                Console.WriteLine("Player O wins!");
+            }
+
+            else if (gameBoard[playerRow, playerColumn] == "X" && gameBoard[playerRow, playerColumn] == "O")
+                Console.WriteLine("Tie!");
+
+            return endGame;
+        }
     }
 }
+
