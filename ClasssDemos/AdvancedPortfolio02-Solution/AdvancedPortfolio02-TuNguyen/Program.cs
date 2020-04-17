@@ -42,25 +42,25 @@ namespace AdvancedPortfolio02_TuNguyen
                 Console.WriteLine("********************");
 
                 Console.WriteLine("-------------");
-                int playerRow = 0, playerColumn = 0, moves = 1;
+                int playerRow = 0, playerColumn = 0, moves = 0;
                 string[,] gameBoard = new string[7, 7];
                 string player = "";
                 bool endGame = false, valid = false;
 
-                while (endGame == false)
+                do
                 {
+                    bool result = false;
                     if (moves % 2 == 1)
                         player = "X";
                     else
                         player = "O";
-
                     do
                     {
                         //Determine the postition to place X and O tokens
-                        playerRow = Row(player);
-                        playerColumn = Column(player);
+                        PlayerPostion(player, out playerRow, out playerColumn);
+                        //playerColumn = Column(player);
 
-                        valid = CheckTakenCell(gameBoard, playerRow, playerColumn, player);
+                        valid = CheckTakenSpot(gameBoard, playerRow, playerColumn, player);
                     } while (valid == true);
 
                     //Display New Blank Game Board
@@ -68,9 +68,19 @@ namespace AdvancedPortfolio02_TuNguyen
 
                     moves++;
 
-                    endGame = Win(gameBoard, playerRow, playerColumn, player, endGame);
-                }
-
+                    //result is used to check if GameStatus() true
+                    //If not, result will be Tie() true
+                    //If not, continue the game until GameStatus() true of Tie() true
+                    result = GameStatus(gameBoard, player, moves);
+                    if (result == true)
+                        endGame = true;
+                    else
+                    {
+                        result = Tie(moves);
+                        if (result == true)
+                            endGame = true;
+                    }
+                } while (endGame == false);
 
                 Console.Write("Would you like to play again (y/n)? ");
                 answer = Console.ReadLine();
@@ -78,7 +88,7 @@ namespace AdvancedPortfolio02_TuNguyen
             Console.WriteLine("Good-bye and thanks for playing.");
         }
 
-        //This method is used as a game board
+        //This method is used as a game board and display the moves of tokens
         static public string[,] GameBoard(string[,] gameBoard, int playerRow, int playerColumn, string player)
         {
             int r = 0, c = 0;
@@ -107,11 +117,11 @@ namespace AdvancedPortfolio02_TuNguyen
             return gameBoard;
         }
 
-        //This method is used to prompt player tokens to be placed in rows
-        static public int Row(string player)
+        //This method is used to prompt player tokens postition
+        static public void PlayerPostion(string player, out int r, out int c)
         {
             string postion;
-            int r = 0;
+            r = 0; c = 0;
             bool valid = false;
 
             //determine which row tokens will be located
@@ -120,34 +130,23 @@ namespace AdvancedPortfolio02_TuNguyen
                 Console.Write($"Enter cell row for player {player} Top (T), Middle (M) or Bottom (B): ");
                 postion = Console.ReadLine();
 
-                if (postion.ToUpper().Equals("T"))
+                if (postion.ToUpper().Equals("T") || postion.ToUpper().Equals("M") || postion.ToUpper().Equals("B"))
                 {
                     valid = true;
-                    r = 1;
-                }
-                else if (postion.ToUpper().Equals("M"))
-                {
-                    valid = true;
-                    r = 3;
-                }
-                else if (postion.ToUpper().Equals("B"))
-                {
-                    valid = true;
-                    r = 5;
+                    if (postion.ToUpper().Equals("T"))
+                        r = 1;
+                    else if (postion.ToUpper().Equals("M"))
+                        r = 3;
+                    else if (postion.ToUpper().Equals("B"))
+                        r = 5;
                 }
                 else
+                {
+                    valid = false;
                     Console.WriteLine("Invalid entry for game location. Try again.");
+                }
+
             } while (valid == false);
-
-            return r;
-        }
-
-        //This method is used to prompt player O tokens to be placed in columns
-        static public int Column(string player)
-        {
-            string postion;
-            int c = 0;
-            bool valid = false;
 
             //determine which column tokens will be located
             valid = false;
@@ -175,11 +174,10 @@ namespace AdvancedPortfolio02_TuNguyen
                     Console.WriteLine("Invalid entry for game location. Try again.");
             } while (valid == false);
 
-            return c;
         }
 
-        //This method is used to check if the cell is taken or not
-        static public bool CheckTakenCell(string[,] gameBoard, int r, int c, string player)
+        //This method is used to check if the spot is taken or not
+        static public bool CheckTakenSpot(string[,] gameBoard, int r, int c, string player)
         {
             bool valid = false;
 
@@ -193,38 +191,55 @@ namespace AdvancedPortfolio02_TuNguyen
             return valid;
         }
 
-        static public bool Win(string[,] gameBoard, int playerRow, int playerColumn, string player, bool endGame)
+        //This method is used to check if player wins and display winning message
+        static public bool GameStatus(string[,] gameBoard, string player, int moves)
         {
-            if ((gameBoard[1, 1] == "X" && gameBoard[1, 3] == "X" && gameBoard[1, 5] == "X") ||
-                (gameBoard[3, 1] == "X" && gameBoard[3, 3] == "X" && gameBoard[3, 5] == "X") ||
-                (gameBoard[5, 1] == "X" && gameBoard[5, 3] == "X" && gameBoard[5, 5] == "X") ||
-                (gameBoard[1, 1] == "X" && gameBoard[3, 1] == "X" && gameBoard[5, 1] == "X") ||
-                (gameBoard[1, 3] == "X" && gameBoard[3, 3] == "X" && gameBoard[5, 3] == "X") ||
-                (gameBoard[1, 5] == "X" && gameBoard[3, 5] == "X" && gameBoard[5, 5] == "X") ||
-                (gameBoard[1, 1] == "X" && gameBoard[3, 3] == "X" && gameBoard[5, 5] == "X") ||
-                (gameBoard[1, 5] == "X" && gameBoard[3, 3] == "X" && gameBoard[5, 1] == "X"))
+            bool endGame = false;
+
+            for (int c = 1; c < 7; c += 2)
             {
-                endGame = true;
-                Console.WriteLine("Player X wins!");
+                if (gameBoard[1, c] == player && gameBoard[1, c] == gameBoard[3, c] &&
+                   gameBoard[1, c] == gameBoard[5, c] && gameBoard[3, c] == gameBoard[5, c])
+                {
+                    endGame = true;
+                    Console.WriteLine($"Player {player} wins!");
+                }
             }
 
-            else if ((gameBoard[1, 1] == "O" && gameBoard[1, 3] == "O" && gameBoard[1, 5] == "O") ||
-                    (gameBoard[3, 1] == "O" && gameBoard[3, 3] == "O" && gameBoard[3, 5] == "O") ||
-                    (gameBoard[5, 1] == "O" && gameBoard[5, 3] == "O" && gameBoard[5, 5] == "O") ||
-                    (gameBoard[1, 1] == "O" && gameBoard[3, 1] == "O" && gameBoard[5, 1] == "O") ||
-                    (gameBoard[1, 3] == "O" && gameBoard[3, 3] == "O" && gameBoard[5, 3] == "O") ||
-                    (gameBoard[1, 5] == "O" && gameBoard[3, 5] == "O" && gameBoard[5, 5] == "O") ||
-                    (gameBoard[1, 1] == "O" && gameBoard[3, 3] == "O" && gameBoard[5, 5] == "O") ||
-                    (gameBoard[1, 5] == "O" && gameBoard[3, 3] == "O" && gameBoard[5, 1] == "O"))
+            for (int r = 1; r < 7; r += 2)
             {
-                endGame = true;
-                Console.WriteLine("Player O wins!");
+                if (gameBoard[r, 1] == player && gameBoard[r, 1] == gameBoard[r, 3] &&
+                    gameBoard[r, 1] == gameBoard[r, 5] && gameBoard[r, 3] == gameBoard[r, 5])
+                {
+                    endGame = true;
+                    Console.WriteLine($"Player {player} wins!");
+                }
             }
 
-            else if (gameBoard[playerRow, playerColumn] == "X" && gameBoard[playerRow, playerColumn] == "O")
-                Console.WriteLine("Tie!");
+            if ((gameBoard[1, 1] == player && gameBoard[3, 3] == player && gameBoard[5, 5] == player) ||
+                (gameBoard[1, 5] == player && gameBoard[3, 3] == player && gameBoard[5, 1] == player))
+            {
+                endGame = true;
+                Console.WriteLine($"Player {player} wins!");
+            }
 
             return endGame;
+        }
+
+        //This method is used to check if player ties and display tie message
+        static public bool Tie(int moves)
+        {
+            bool tie = false;
+
+            if (moves == 9)
+            {
+                tie = true;
+                Console.WriteLine("Tie!");
+            }
+            else
+                tie = false;
+
+            return tie;
         }
     }
 }
